@@ -27,15 +27,18 @@ module Saxerator
       def to_hash
         hash = HashElement.new(@name, @attributes)
 
-        @children.each do |child|
-          name = child.name
-          element = child.block_variable
+        if @text
+          add_to_hash_element(hash, '__content__', @children.join)
+        else
+          @children.each do |child|
+            name = child.name
+            element = child.block_variable
 
-          add_to_hash_element(hash, name, element)
+            add_to_hash_element(hash, name, element)
+          end
         end
 
         if @config.put_attributes_in_hash?
-
           @attributes.each do |attribute|
             attribute.each_slice(2) do |name, element|
               add_to_hash_element(hash, name, element)
@@ -60,7 +63,7 @@ module Saxerator
       end
 
       def block_variable
-        return to_s if @text
+        return to_s if @text && !@config.represent_strings_as_hash?
         return to_hash if @children.count > 0
         to_empty_element
       end

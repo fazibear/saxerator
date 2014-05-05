@@ -7,6 +7,7 @@ module Saxerator
       @output_type = :hash
       @put_attributes_in_hash = false
       @ignore_namespaces = false
+      @represent_strings_as_hash = false
     end
 
     def output_type=(val)
@@ -55,6 +56,14 @@ module Saxerator
 
     def put_attributes_in_hash?
       @put_attributes_in_hash
+    end
+
+    def represent_strings_as_hash?
+      @represent_strings_as_hash
+    end
+
+    def represent_strings_as_hash!
+      @represent_strings_as_hash = true
     end
 
     def raise_error_if_using_put_attributes_in_hash_with_xml
